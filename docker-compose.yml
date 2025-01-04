@@ -7,6 +7,7 @@ services:
     volumes:
       - backend_media:/app/media
       - backend_static:/app/collected_static
+    network_mode: host
     env_file:
       - .env
     ports:
