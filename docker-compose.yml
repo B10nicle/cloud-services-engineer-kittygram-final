@@ -5,7 +5,7 @@ services:
     image: b10nicle/kittygram_backend:latest
     container_name: backend
     volumes:
-      - backend_media:/app/media
+      - media:/app/media
       - backend_static:/app/collected_static
     env_file:
       - .env
