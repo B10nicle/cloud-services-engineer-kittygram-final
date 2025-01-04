@@ -121,6 +121,7 @@ jobs:
     #needs: auto-tests
     steps:
       - name: Send message
+        if: success()
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
@@ -129,5 +130,4 @@ jobs:
             🎉 Успешный деплой завершён!
             User: ${{ github.actor }}
             Branch: ${{ github.ref_name }}
-            Commit: ${{ github.sha }}
             Link: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
