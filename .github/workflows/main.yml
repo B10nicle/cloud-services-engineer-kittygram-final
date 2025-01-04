@@ -131,7 +131,6 @@ jobs:
             cd /home/ubuntu/kittygram
             git clone https://github.com/B10nicle/cloud-services-engineer-kittygram-final.git . || git pull origin main
             
-            cd /home/ubuntu/kittygram/cloud-services-engineer-kittygram-final
             docker-compose pull
             docker-compose up -d --remove-orphans
 
