@@ -13,8 +13,9 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
-    network_mode: host
     restart: always
+    networks:
+      - default
 
   frontend:
     image: b10nicle/kittygram_frontend:latest
