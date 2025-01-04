@@ -110,13 +110,24 @@ jobs:
           push: true
           tags: b10nicle/kittygram_gateway:latest
 
-  send_message:
+  deploy:
+
+  auto-tests:
+    needs: deploy
+
+  telegram_notify:
+    name: Telegram Notify
     runs-on: ubuntu-latest
-    #needs: deploy
+    needs: auto-tests
     steps:
       - name: Send message
         uses: appleboy/telegram-action@master
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Деплой успешно выполнен!
+          message: |
+            🎉 Успешный деплой завершён!
+            User: ${{ github.actor }}
+            Branch: ${{ github.ref_name }}
+            Commit: ${{ github.sha }}
+            Link: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
