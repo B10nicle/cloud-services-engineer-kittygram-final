@@ -127,7 +127,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            🎉 Успешный деплой завершён!
+            Успешный деплой завершён 🎉 🎉 🎉
             User: ${{ github.actor }}
             Branch: ${{ github.ref_name }}
             Link: https://github.com/${{ github.repository }}/commit/${{ github.sha }}
