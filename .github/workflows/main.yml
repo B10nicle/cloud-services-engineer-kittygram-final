@@ -110,15 +110,15 @@ jobs:
           push: true
           tags: b10nicle/kittygram_gateway:latest
 
-  deploy:
+  #deploy:
 
-  auto-tests:
-    needs: deploy
+  #auto-tests:
+    #needs: deploy
 
   telegram_notify:
     name: Telegram Notify
     runs-on: ubuntu-latest
-    needs: auto-tests
+    #needs: auto-tests
     steps:
       - name: Send message
         uses: appleboy/telegram-action@master
