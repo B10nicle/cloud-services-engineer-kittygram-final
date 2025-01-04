@@ -7,16 +7,14 @@ services:
     volumes:
       - backend_media:/app/media
       - backend_static:/app/collected_static
-    network_mode: host
     env_file:
       - .env
     ports:
       - "8000:8000"
     depends_on:
       - postgres
+    network_mode: host
     restart: always
-    networks:
-      - kittygram
 
   frontend:
     image: b10nicle/kittygram_frontend:latest
@@ -28,8 +26,6 @@ services:
     depends_on:
       - backend
     restart: always
-    networks:
-      - kittygram
 
   gateway:
     image: b10nicle/kittygram_gateway:latest
@@ -44,8 +40,6 @@ services:
       - backend
       - frontend
     restart: always
-    networks:
-      - kittygram
 
   postgres:
     image: postgres:13.10
@@ -57,15 +51,9 @@ services:
     volumes:
       - pg_data:/var/lib/postgresql/data
     restart: always
-    networks:
-      - kittygram
 
 volumes:
   frontend_static:
   backend_static:
   backend_media:
   pg_data:
-
-networks:
-  kittygram:
-    driver: bridge
