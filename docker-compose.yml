@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  backend:
+    image: b10nicle/kittygram_backend:latest
+    container_name: backend
+    volumes:
+      - backend_media:/app/media
+      - backend_static:/app/collected_static
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+    restart: always
+
+  frontend:
+    image: b10nicle/kittygram_frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:8000"
+    volumes:
+      - frontend_static:/app/build
+    depends_on:
+      - backend
+    restart: always
+
+  gateway:
+    image: b10nicle/kittygram_gateway:latest
+    container_name: gateway
+    ports:
+      - "80:80"
+    volumes:
+      - frontend_static:/static/frontend
+      - backend_static:/static/backend
+      - backend_media:/media
+    depends_on:
+      - backend
+      - frontend
+    restart: always
+
+  postgres:
+    image: postgres:13.10
+    container_name: postgres
+    env_file:
+      - .env
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  frontend_static:
+  backend_static:
+  backend_media:
+  pg_data:
