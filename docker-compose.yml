@@ -36,9 +36,9 @@ services:
     ports:
       - "80:80"
     volumes:
-      - frontend_static:/static/frontend
-      - backend_static:/static/backend
-      - backend_media:/media
+      - frontend_static:/var/html/static
+      - backend_static:/var/html/backend
+      - media:/var/html/media
     depends_on:
       - backend
       - frontend
@@ -62,5 +62,5 @@ services:
 volumes:
   frontend_static:
   backend_static:
-  backend_media:
+  media:
   pg_data:
