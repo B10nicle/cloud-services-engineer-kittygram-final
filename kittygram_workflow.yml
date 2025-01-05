@@ -6,8 +6,8 @@ on:
       - main
 
 jobs:
-  backend_tests:
-    name: Backend Tests
+  backend_linter:
+    name: Backend Linter
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
