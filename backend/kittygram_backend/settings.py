@@ -9,8 +9,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-STATIC_ROOT = "/app/collected_static"
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 INSTALLED_APPS = [
