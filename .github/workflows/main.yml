@@ -148,8 +148,8 @@ jobs:
             docker-compose -f kittygram/docker-compose.production.yml pull
             docker-compose -f kittygram/docker-compose.production.yml down
             docker-compose -f kittygram/docker-compose.production.yml up -d
-            docker-compose -f kittygram/docker-compose.production.yml exec -T backend python manage.py collectstatic --noinput
-            docker-compose -f kittygram/docker-compose.production.yml exec -T backend python manage.py migrate
+            docker-compose -f kittygram/docker-compose.production.yml exec -t backend python manage.py collectstatic --noinput
+            docker-compose -f kittygram/docker-compose.production.yml exec -t backend python manage.py migrate
 
   auto_tests:
     name: Auto Tests
