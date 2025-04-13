@@ -1,3 +1,4 @@
 .env
 .DS_Store
 .idea
+infra/authorized_key.json

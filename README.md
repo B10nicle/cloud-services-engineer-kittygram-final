@@ -1,24 +1,82 @@
-#  Как работать с репозиторием финального задания
+# 🐈‍⬛ Kittygram
 
-## Что нужно сделать
+## 🚀 Tech Stack
 
-Настроить запуск проекта Kittygram в контейнерах и CI/CD с помощью GitHub Actions
+- **Docker/Docker Compose**
+- **Nginx** (gateway)
+- **PostgreSQL**
+- **Terraform** (Yandex.Cloud)
+- **GitHub Actions**
+- **Python/Django (backend)**
+- **React (frontend)**
 
-## Как проверить работу с помощью автотестов
+## 📁 Project Structure
 
-В корне репозитория создайте файл tests.yml со следующим содержимым:
-```yaml
-repo_owner: ваш_логин_на_гитхабе
-kittygram_domain: полная ссылка (http://<ip-адрес вашей ВМ>:<порт gateway>) на ваш проект Kittygram
-dockerhub_username: ваш_логин_на_докерхабе
+```
+kittygram-final
+├── backend/                   # Django app
+├── frontend/                  # React app
+├── nginx/                     # Nginx config
+├── infra/                     # Terraform configuration
+├── .github/workflows/         # CI/CD workflows
+└── docker-compose.production.yml
 ```
 
-Скопируйте содержимое файла `.github/workflows/main.yml` в файл `kittygram_workflow.yml` в корневой директории проекта.
+## ⚙️ Setup and Local Run
 
-Для локального запуска тестов создайте виртуальное окружение, установите в него зависимости из backend/requirements.txt и запустите в корневой директории проекта `pytest`.
+1. Start containers:
 
-## Чек-лист для проверки перед отправкой задания
+```bash
+docker compose -f docker-compose.production.yml up --build
+```
 
-- Проект Kittygram доступен по ссылке, указанной в `tests.yml`.
-- Пуш в ветку main запускает тестирование и деплой Kittygram, а после успешного деплоя вам приходит сообщение в телеграм.
-- В корне проекта есть файл `kittygram_workflow.yml`.
+2. Collect static files and apply migrations:
+
+```bash
+docker compose exec backend python manage.py collectstatic --noinput
+docker compose exec backend python manage.py migrate
+```
+
+## ☁️ Deploy to Yandex.Cloud
+
+1. Init Terraform:
+
+```bash
+cd infra/
+terraform init
+```
+
+2. Apply configuration:
+
+```bash
+terraform apply -auto-approve
+```
+
+Once done, Terraform outputs the VM external IP and VM name.
+
+## 🤖 GitHub Actions Automation
+
+Includes:
+
+- 🔍 Django code linting (`flake8`)
+- ✅ Frontend tests (`npm test`)
+- 🛠 Docker image build & push
+- 🚀 Server deployment
+- 🧪 Post-deploy auto tests
+- 📩 Telegram notifications
+
+## 🔐 GitHub Secrets Required
+
+| Secret | Description |
+|--------|-------------|
+| `DOCKER_USERNAME`, `DOCKER_PASSWORD` | DockerHub credentials |
+| `SSH_PRIVATE_KEY`, `SERVER_HOST`, `SERVER_USER` | For remote server deployment |
+| `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB`, `POSTGRES_HOST`, `POSTGRES_PORT` | Database settings |
+| `YC_CLOUD_ID`, `YC_FOLDER_ID`, `YC_KEY_JSON`, `SSH_KEY` | Yandex.Cloud credentials |
+| `ACCESS_KEY`, `SECRET_KEY` | Terraform backend access |
+| `TELEGRAM_TOKEN`, `TELEGRAM_TO` | Telegram notification credentials |
+
+## 🔗 URLs After Deploy
+
+- Main: `http://<EXTERNAL_IP>/`
+- Django Admin: `http://<EXTERNAL_IP>/admin/`

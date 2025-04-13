@@ -3,10 +3,11 @@ version: '3.3'
 services:
   backend:
     image: b10nicle/kittygram_backend:latest
+    platform: linux/amd64
     container_name: backend
     volumes:
       - media:/app/media
-      - backend_static:/app/collected_static
+      - backend_static:/backend_static
     env_file:
       - .env
     ports:
@@ -19,6 +20,7 @@ services:
 
   frontend:
     image: b10nicle/kittygram_frontend:latest
+    platform: linux/amd64
     container_name: frontend
     volumes:
       - frontend_static:/app/build
@@ -29,11 +31,12 @@ services:
 
   gateway:
     image: b10nicle/kittygram_gateway:latest
+    platform: linux/amd64
     container_name: gateway
     ports:
       - "80:80"
     volumes:
-      - frontend_static:/var/html/static
+      - frontend_static:/var/html/static/
       - backend_static:/var/html/backend
       - media:/var/html/media
     depends_on:
@@ -45,11 +48,12 @@ services:
 
   postgres:
     image: postgres:13.10
+    platform: linux/amd64
     container_name: postgres
     env_file:
       - .env
     volumes:
-      - pg_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     restart: always
     networks:
       - default
@@ -58,4 +62,4 @@ volumes:
   frontend_static:
   backend_static:
   media:
-  pg_data:
+  pgdata:
